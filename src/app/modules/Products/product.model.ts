@@ -4,11 +4,11 @@ import { TInventory, TProduct, TVariants } from "./product.interface";
 const SVariants = new Schema <TVariants>({
     type:{type:String,required:true},
     value:{type:String,required:true}
-})
+},{_id:false})
  const SInventory = new Schema <TInventory>({
     quantity:{type:Number,required:true},
     inStock:{type:Boolean,required:true}
-})
+},{_id:false})
 
 const ProductSchema = new Schema<TProduct>({
     name:{
