@@ -12,6 +12,7 @@ const SInventorySchema = z.object({
     inStock: z.boolean()
 });
 
+//Product validation with zod
 const ZProductSchema = z.object({
     name: z.string().min(1),
     description: z.string().min(1),

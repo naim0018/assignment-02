@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+//Order validation with zod
 const zOrder = z.object({
     email: z.string().email(), 
     productId: z.string().min(5), 

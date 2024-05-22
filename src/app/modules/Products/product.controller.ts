@@ -2,17 +2,15 @@ import { Request, Response } from "express";
 import { ProductService } from "./product.service";
 import ZProductSchema from "./product.validation";
 
+//Create Product
 const createNewProduct = async (req: Request, res: Response) => {
   try {
+    const { data: product } = req.body;
 
-    const {data:product} = req.body;
-    console.log({product}) 
- 
-    const zodParseData = ZProductSchema.parse(product)
-    console.log(zodParseData)
+    //Product Validation with zod
+    const zodParseData = ZProductSchema.parse(product);
 
-    
-    const result = await ProductService.createNewProductData(zodParseData)
+    const result = await ProductService.createNewProductData(zodParseData);
 
     res.status(200).json({
       success: true,
@@ -27,11 +25,14 @@ const createNewProduct = async (req: Request, res: Response) => {
     });
   }
 };
+//Get All Product
 const getAllProduct = async (req: Request, res: Response) => {
   try {
     const { searchTerm } = req.query;
-   
-    const result = await ProductService.getAllProductsData(searchTerm as string);
+
+    const result = await ProductService.getAllProductsData(
+      searchTerm as string
+    );
     res.status(200).json({
       success: true,
       message: "Product fetched successfully!",
@@ -45,6 +46,7 @@ const getAllProduct = async (req: Request, res: Response) => {
     });
   }
 };
+//Get Product By Id
 const getProductById = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
@@ -62,6 +64,7 @@ const getProductById = async (req: Request, res: Response) => {
     });
   }
 };
+//Update Product By Id
 const updateProductById = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
@@ -83,6 +86,7 @@ const updateProductById = async (req: Request, res: Response) => {
     });
   }
 };
+//Delete Product By Id
 const deleteProductById = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
@@ -101,6 +105,7 @@ const deleteProductById = async (req: Request, res: Response) => {
   }
 };
 
+//exported all route
 export const ProductControllers = {
   createNewProduct,
   getAllProduct,

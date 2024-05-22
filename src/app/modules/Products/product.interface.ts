@@ -8,7 +8,7 @@ export type TInventory={
     quantity:number,
     inStock:boolean
 }
-
+//Product Type 
 export type TProduct ={
     name:string,
     description:string,
