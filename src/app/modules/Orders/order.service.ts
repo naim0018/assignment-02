@@ -6,9 +6,14 @@ const postOrderData =async(order:TOrder)=>{
     return result
 }
 
-const getAllOrdersData = async()=>{
-    const result = await OrderModel.find()
-    return result
+const getAllOrdersData = async(query:object)=>{
+
+        const result = await OrderModel.find(query)
+     
+        console.log(result)
+        return result
+        
+   
 }
 export const OrderService ={
     postOrderData,

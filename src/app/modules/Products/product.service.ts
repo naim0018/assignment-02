@@ -6,7 +6,7 @@ const getAllProductsData =async(searchTerm?:string)=>{
         // const product = await new ProductModel()
         // const result = product.save()
         console.log(searchTerm)
-        const product = await ProductModel.find({ tags: { $in: [searchTerm] } });
+        const product = await ProductModel.find({ tags: { $in: [searchTerm] }});
         return product
     }else{
         const result = await ProductModel.find()

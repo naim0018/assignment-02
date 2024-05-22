@@ -5,7 +5,7 @@ import { OrderModel } from "./order.model";
 
 const postOrder = async(req:Request,res:Response)=>{
    try {
-    const orderData = req.body
+    const {data:orderData} = req.body
     const result = await OrderService.postOrderData(orderData)
     res.status(200).json({
         success:true,
@@ -23,10 +23,10 @@ const postOrder = async(req:Request,res:Response)=>{
 
 const getAllOrders = async(req:Request,res:Response)=>{
 try {
-
-    const result = await OrderService.getAllOrdersData()
-
-
+    const query = req.query
+    console.log(query)
+    const result = await OrderService.getAllOrdersData(query)
+    
     res.status(200).json({
         success:true,
         message:"Orders fetched successfully",
