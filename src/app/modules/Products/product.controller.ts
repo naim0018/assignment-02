@@ -11,6 +11,7 @@ const createNewProduct = async (req: Request, res: Response) => {
     const zodParseData = ZProductSchema.parse(product)
     console.log(zodParseData)
 
+    
     const result = await ProductService.createNewProductData(zodParseData)
 
     res.status(200).json({
