@@ -1,3 +1,5 @@
+import { Model } from "mongoose"
+
 export type TVariants={
     type:string,
     value:string
@@ -16,3 +18,10 @@ export type TProduct ={
     variants:TVariants[],
     inventory: TInventory,
 }
+
+
+// export type TProductMethod = {
+// searchTerm(name:string):Promise<TProduct>
+// }
+
+export type TProductModel = Model<TProduct>

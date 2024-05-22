@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { TInventory, TProduct, TVariants } from "./product.interface";
+import { TInventory, TProduct,  TProductModel, TVariants } from "./product.interface";
 
 const SVariants = new Schema <TVariants>({
     type:{type:String,required:true},
@@ -33,5 +33,13 @@ const ProductSchema = new Schema<TProduct>({
         
     
 })
+
+// ProductSchema.methods.searchTerm =async function searchTerm(searchTerm:string){
+//     const searchTagsData = await this.find({
+//         tags:{$in:[searchTerm]}
+//     })
+//     console.log(searchTagsData)
+//     return searchTagsData
+// }
 
 export const ProductModel = model<TProduct>('Product',ProductSchema)
