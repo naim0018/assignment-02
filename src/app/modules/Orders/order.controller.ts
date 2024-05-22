@@ -2,14 +2,16 @@ import { Request, Response } from "express";
 import { OrderService } from "./order.service";
 import { TOrder } from "./order.interface";
 import { OrderModel } from "./order.model";
+import zOrder from "./order.validation";
 
 const postOrder = async(req:Request,res:Response)=>{
    try {
     const {data:orderData} = req.body
-    const result = await OrderService.postOrderData(orderData)
+    const zOrderData = zOrder.parse(orderData)
+    const result = await OrderService.postOrderData(zOrderData)
     res.status(200).json({
         success:true,
-        message:"Orders fetched successfully",
+        message:"Orders created successfully",
         data:result
     })
    } catch (error) {

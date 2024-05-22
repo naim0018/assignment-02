@@ -34,12 +34,6 @@ const ProductSchema = new Schema<TProduct>({
     
 })
 
-// ProductSchema.methods.searchTerm =async function searchTerm(searchTerm:string){
-//     const searchTagsData = await this.find({
-//         tags:{$in:[searchTerm]}
-//     })
-//     console.log(searchTagsData)
-//     return searchTagsData
-// }
+
 
 export const ProductModel = model<TProduct>('Product',ProductSchema)

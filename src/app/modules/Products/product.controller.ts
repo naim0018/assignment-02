@@ -1,10 +1,18 @@
 import { Request, Response } from "express";
 import { ProductService } from "./product.service";
+import ZProductSchema from "./product.validation";
 
 const createNewProduct = async (req: Request, res: Response) => {
   try {
-    const product = req.body.data;
-    const result = await ProductService.createNewProductData(product);
+
+    const {data:product} = req.body;
+    console.log({product}) 
+ 
+    const zodParseData = ZProductSchema.parse(product)
+    console.log(zodParseData)
+
+    const result = await ProductService.createNewProductData(zodParseData)
+
     res.status(200).json({
       success: true,
       message: "Product created successfully!",
@@ -21,7 +29,7 @@ const createNewProduct = async (req: Request, res: Response) => {
 const getAllProduct = async (req: Request, res: Response) => {
   try {
     const { searchTerm } = req.query;
-    console.log(searchTerm)
+   
     const result = await ProductService.getAllProductsData(searchTerm as string);
     res.status(200).json({
       success: true,
