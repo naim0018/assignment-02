@@ -5,10 +5,10 @@ import ZProductSchema from "./product.validation";
 //Create Product
 const createNewProduct = async (req: Request, res: Response) => {
   try {
-    const { data: product } = req.body;
+
 
     //Product Validation with zod
-    const zodParseData = ZProductSchema.parse(product);
+    const zodParseData = ZProductSchema.parse(req.body);
 
     const result = await ProductService.createNewProductData(zodParseData);
 
