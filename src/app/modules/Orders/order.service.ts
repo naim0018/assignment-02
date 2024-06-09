@@ -2,6 +2,7 @@ import { TOrder } from "./order.interface";
 import { OrderModel } from "./order.model";
 //Post Order Data
 const postOrderData = async (order: TOrder) => {
+  
   const result = await OrderModel.create(order);
   return result;
 };

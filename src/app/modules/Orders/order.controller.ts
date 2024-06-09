@@ -2,52 +2,44 @@ import { Request, Response } from "express";
 import { OrderService } from "./order.service";
 import zOrder from "./order.validation";
 import { ProductModel } from "../Products/product.model";
-import { ProductService } from "../Products/product.service";
 
-
-//create Order
 const postOrder = async (req: Request, res: Response) => {
-  try {
-    const { data: orderData } = req.body;
-
-    //Order validation
-    const zOrderData = zOrder.parse(orderData);
-    //find product using productId
-    const product: any = await ProductModel.findById(zOrderData.productId);
-
-    //Inventory validation
-    if (!product) {
-      res.status(404).json({
-        success: false,
-        message: "Order not found",
-      });
-    } else if (zOrderData.quantity > product.inventory.quantity) {
-      res.status(404).json({
-        success: false,
-        message: "Insufficient quantity available in inventory",
-      });
-    } else {
-      //Product inventory checking
-      product.inventory.quantity -= zOrderData.quantity;
-      product.inventory.inStock = product.inventory.quantity > 0 ? true : false;
-      // product update
-      await ProductService.updateProductDataById(product.productId, product);
-      const result = await OrderService.postOrderData(zOrderData);
-
-      await product.save();
-      res.status(200).json({
-        success: true,
-        message: "Orders created successfully",
-        data: result,
-      });
-    }
-  } catch (error) {
-    res.status(500).json({
+  const order = zOrder.parse(req.body);
+  const productId = order.productId;
+  // Find Product
+  const product = await ProductModel.findOne({ _id: productId });
+  if(!product){
+    return res.status(500).json({
       success: false,
-      message: "Orders could not fetched successfully",
-      error: error,
+      message: "Order not found",
     });
   }
+  // Remaining Quantity
+  const remainingQuantity =
+    (product?.inventory?.quantity as number) - order.quantity;
+  if (remainingQuantity < 0) {
+    return res.status(500).json({
+      success: false,
+      message: "Insufficient quantity available in inventory",
+    });
+  }
+
+  const productInventoryUpdate = await ProductModel.findOneAndUpdate(
+    { _id: productId },
+    {
+      $set: {
+        "inventory.quantity": remainingQuantity,
+        "inventory.inStock": remainingQuantity>0,
+      },
+    },
+    { new: true }
+  );
+  const createOrder = await OrderService.postOrderData(req.body);
+  res.status(200).json({
+    success: true,
+    message: "Order created successfully",
+    data: createOrder,
+  });
 };
 
 //get all orders
